@@ -87,7 +87,7 @@ class FirebaseAuthRepository @Inject constructor(
     /**
      * تحويل مستخدم Firebase إلى نموذج النطاق
      */
-    private fun com.google.firebase.FirebaseUser.toUser(): User {
+    private fun com.google.firebase.auth.FirebaseUser.toUser(): User {
         return User(
             id = uid,
             displayName = displayName ?: "",

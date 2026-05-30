@@ -80,26 +80,28 @@ class FirebaseChatRepository @Inject constructor(
 
                             val name = roomSnapshot.child("name").getValue(String::class.java) ?: ""
                             val bookId = roomSnapshot.child("bookId").getValue(String::class.java) ?: ""
-                            val createdBy = roomSnapshot.child("createdBy").getValue(String::class.java) ?: ""
+                            val description = roomSnapshot.child("description").getValue(String::class.java) ?: ""
                             val createdAt = roomSnapshot.child("createdAt").getValue(Long::class.java) ?: 0L
                             val memberCount = roomSnapshot.child("memberCount").getValue(Int::class.java) ?: 0
                             val lastMessage = roomSnapshot.child("lastMessage").getValue(String::class.java) ?: ""
-                            val lastMessageTime = roomSnapshot.child("lastMessageTime").getValue(Long::class.java) ?: 0L
+                            val lastMessageAt = roomSnapshot.child("lastMessageAt").getValue(Long::class.java) ?: 0L
+                            val isPublic = roomSnapshot.child("isPublic").getValue(Boolean::class.java) ?: true
 
                             chatRooms.add(
                                 ChatRoom(
                                     id = roomId,
                                     name = name,
-                                    bookId = bookId,
-                                    createdBy = createdBy,
-                                    createdAt = createdAt,
+                                    description = description,
+                                    bookId = bookId.ifEmpty { null },
                                     memberCount = memberCount,
                                     lastMessage = lastMessage,
-                                    lastMessageTime = lastMessageTime
+                                    lastMessageAt = lastMessageAt,
+                                    isPublic = isPublic,
+                                    createdAt = createdAt
                                 )
                             )
                         }
-                        _chatRooms.value = chatRooms.sortedByDescending { it.lastMessageTime }
+                        _chatRooms.value = chatRooms.sortedByDescending { it.lastMessageAt }
                     }
 
                     override fun onCancelled(error: DatabaseError) {
@@ -143,7 +145,7 @@ class FirebaseChatRepository @Inject constructor(
                             senderId = senderId,
                             senderName = senderName,
                             text = text,
-                            type = try { MessageType.valueOf(type) } catch (_: Exception) { MessageType.TEXT },
+                            messageType = try { MessageType.valueOf(type) } catch (_: Exception) { MessageType.TEXT },
                             timestamp = timestamp
                         )
                     )
@@ -180,7 +182,7 @@ class FirebaseChatRepository @Inject constructor(
             val roomRef = firebaseDatabase.getReference(CHAT_ROOMS_PATH).child(roomId)
             val updates = mapOf(
                 "lastMessage" to text.take(50),
-                "lastMessageTime" to System.currentTimeMillis()
+                "lastMessageAt" to System.currentTimeMillis()
             )
             roomRef.updateChildren(updates).await()
 
@@ -197,12 +199,13 @@ class FirebaseChatRepository @Inject constructor(
             val roomMap = mapOf(
                 "id" to roomId,
                 "name" to room.name,
-                "bookId" to room.bookId,
-                "createdBy" to room.createdBy,
+                "bookId" to (room.bookId ?: ""),
+                "description" to room.description,
+                "isPublic" to room.isPublic,
                 "createdAt" to System.currentTimeMillis(),
                 "memberCount" to 1,
                 "lastMessage" to "",
-                "lastMessageTime" to System.currentTimeMillis()
+                "lastMessageAt" to System.currentTimeMillis()
             )
 
             roomRef.setValue(roomMap).await()

@@ -1,6 +1,7 @@
 package com.kitabi.app.domain.usecase
 
 import com.kitabi.app.domain.model.Book
+import com.kitabi.app.domain.model.BookSource
 import com.kitabi.app.domain.model.OnlineBook
 import com.kitabi.app.domain.repository.BookRepository
 import javax.inject.Inject

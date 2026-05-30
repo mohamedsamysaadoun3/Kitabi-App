@@ -53,21 +53,10 @@ enum class DownloadState {
 }
 
 /**
- * مستوى الصعوبة
+ * مستوى الصعوبة - يُستخدم من provider.ai.DifficultyLevel
+ * هذا مجرد نوع بديل للتوافق
  */
-enum class DifficultyLevel {
-    /** سهل - للمبتدئين */
-    EASY,
-
-    /** متوسط */
-    MEDIUM,
-
-    /** صعب - للمتقدمين */
-    HARD,
-
-    /** متقدم - للخبراء */
-    ADVANCED
-}
+typealias DifficultyLevel = com.kitabi.app.provider.ai.DifficultyLevel
 
 /**
  * تصنيف الكتاب
@@ -214,18 +203,7 @@ enum class AiFeature(val arabicName: String) {
 }
 
 /**
- * دور الذكاء الاصطناعي في المحادثة
+ * دور الذكاء الاصطناعي - يُستخدم من provider.ai.AiRole
+ * هذا مجرد نوع بديل للتوافق
  */
-enum class AiRole {
-    /** مساعد القراءة */
-    READING_ASSISTANT,
-
-    /** محلل النص */
-    TEXT_ANALYZER,
-
-    /** مرشد تعليمي */
-    LEARNING_GUIDE,
-
-    /** محاور */
-    CONVERSATIONALIST
-}
+typealias AiRole = com.kitabi.app.provider.ai.AiRole

@@ -31,7 +31,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.GridView
-import androidx.compose.material.icons.filled.ListView
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
@@ -424,7 +424,7 @@ private fun RecentlyAddedSection(
             )
             IconButton(onClick = { /* toggle view */ }) {
                 Icon(
-                    imageVector = if (isGridView) Icons.Filled.ListView else Icons.Filled.GridView,
+                    imageVector = if (isGridView) Icons.Filled.List else Icons.Filled.GridView,
                     contentDescription = if (isGridView) "عرض قائمة" else "عرض شبكة",
                     tint = KitabiTheme.colors.onSurfaceVariant
                 )
@@ -440,7 +440,7 @@ private fun RecentlyAddedSection(
                 verticalItemSpacing = 8.dp,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(((books.size / 3) + 1) * 220.dp)
+                    .height((((books.size / 3) + 1) * 220).dp)
             ) {
                 items(books) { book ->
                     BookGridItem(

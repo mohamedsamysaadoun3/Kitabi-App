@@ -230,11 +230,7 @@ private fun PdfPageView(
     onTextSelected: (String) -> Unit
 ) {
     // عرض نص صفحة PDF
-    SelectionContainer(
-        onSelectionChange = { text ->
-            if (text.isNotEmpty()) onTextSelected(text)
-        }
-    ) {
+    SelectionContainer {
         Text(
             text = pageContent.text,
             style = TextStyle(
@@ -289,11 +285,7 @@ private fun TextPageView(
             }
     ) {
         // محتوى الصفحة
-        SelectionContainer(
-            onSelectionChange = { text ->
-                if (text.isNotEmpty()) onTextSelected(text)
-            }
-        ) {
+        SelectionContainer {
             Text(
                 text = pageContent.text,
                 style = TextStyle(

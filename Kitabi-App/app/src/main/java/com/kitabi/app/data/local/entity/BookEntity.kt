@@ -63,6 +63,9 @@ data class BookEntity(
     /** عدد صفحات الكتاب */
     val pageCount: Int = 0,
 
+    /** الصفحة الحالية */
+    val currentPage: Int = 0,
+
     /** تاريخ آخر قراءة (طابع زمني) */
     val lastReadAt: Long? = null,
 

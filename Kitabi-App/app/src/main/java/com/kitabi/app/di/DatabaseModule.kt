@@ -20,6 +20,7 @@ import com.kitabi.app.domain.repository.ReadingProgressRepository
 import com.kitabi.app.domain.repository.UserPreferencesRepository
 import com.squareup.moshi.Moshi
 import dagger.Module
+import dagger.Binds
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -34,148 +35,131 @@ import javax.inject.Singleton
  */
 @Module
 @InstallIn(SingletonComponent::class)
-object DatabaseModule {
-
-    // ============ قاعدة البيانات المحلية ============
+abstract class DatabaseModule {
 
     /**
-     * توفير قاعدة بيانات Room
+     * ربط مستودع الكتب
      */
-    @Provides
+    @Binds
     @Singleton
-    fun provideKitabiDatabase(
-        @ApplicationContext context: Context
-    ): KitabiDatabase {
-        return Room.databaseBuilder(
-            context,
-            KitabiDatabase::class.java,
-            KitabiDatabase.DATABASE_NAME
-        )
-            .fallbackToDestructiveMigration()
-            .build()
-    }
+    abstract fun bindBookRepository(impl: BookRepositoryImpl): BookRepository
 
     /**
-     * توفير كائن الوصول لبيانات الكتب
+     * ربط مستودع تقدم القراءة
      */
-    @Provides
+    @Binds
     @Singleton
-    fun provideBookDao(database: KitabiDatabase): BookDao {
-        return database.bookDao()
-    }
+    abstract fun bindReadingProgressRepository(impl: ReadingProgressRepositoryImpl): ReadingProgressRepository
 
     /**
-     * توفير كائن الوصول لبيانات تقدم القراءة
+     * ربط مستودع المتجر الإلكتروني
      */
-    @Provides
+    @Binds
     @Singleton
-    fun provideReadingProgressDao(database: KitabiDatabase): ReadingProgressDao {
-        return database.readingProgressDao()
-    }
+    abstract fun bindOnlineStoreRepository(impl: StoreRepositoryImpl): OnlineStoreRepository
 
     /**
-     * توفير كائن الوصول لبيانات الإشارات المرجعية
+     * ربط مستودع تفضيلات المستخدم
      */
-    @Provides
+    @Binds
     @Singleton
-    fun provideBookmarkDao(database: KitabiDatabase): BookmarkDao {
-        return database.bookmarkDao()
-    }
+    abstract fun bindUserPreferencesRepository(impl: UserPreferencesRepositoryImpl): UserPreferencesRepository
 
-    /**
-     * توفير كائن الوصول لبيانات إحصائيات القراءة
-     */
-    @Provides
-    @Singleton
-    fun provideReadingStatsDao(database: KitabiDatabase): ReadingStatsDao {
-        return database.readingStatsDao()
-    }
+    companion object {
 
-    // ============ خدمات API ============
+        /**
+         * توفير قاعدة بيانات Room
+         */
+        @Provides
+        @Singleton
+        fun provideKitabiDatabase(
+            @ApplicationContext context: Context
+        ): KitabiDatabase {
+            return Room.databaseBuilder(
+                context,
+                KitabiDatabase::class.java,
+                KitabiDatabase.DATABASE_NAME
+            )
+                .fallbackToDestructiveMigration()
+                .build()
+        }
 
-    /**
-     * توفير واجهة Open Library API
-     */
-    @Provides
-    @Singleton
-    fun provideOpenLibraryApiService(moshi: Moshi, okHttpClient: okhttp3.OkHttpClient): OpenLibraryApiService {
-        return Retrofit.Builder()
-            .baseUrl(OpenLibraryApiService.BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .build()
-            .create(OpenLibraryApiService::class.java)
-    }
+        /**
+         * توفير كائن الوصول لبيانات الكتب
+         */
+        @Provides
+        @Singleton
+        fun provideBookDao(database: KitabiDatabase): BookDao {
+            return database.bookDao()
+        }
 
-    /**
-     * توفير واجهة Google Books API
-     */
-    @Provides
-    @Singleton
-    fun provideGoogleBooksApiService(moshi: Moshi, okHttpClient: okhttp3.OkHttpClient): GoogleBooksApiService {
-        return Retrofit.Builder()
-            .baseUrl(GoogleBooksApiService.BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .build()
-            .create(GoogleBooksApiService::class.java)
-    }
+        /**
+         * توفير كائن الوصول لبيانات تقدم القراءة
+         */
+        @Provides
+        @Singleton
+        fun provideReadingProgressDao(database: KitabiDatabase): ReadingProgressDao {
+            return database.readingProgressDao()
+        }
 
-    /**
-     * توفير واجهة Gutenberg API
-     */
-    @Provides
-    @Singleton
-    fun provideGutenbergApiService(moshi: Moshi, okHttpClient: okhttp3.OkHttpClient): GutenbergApiService {
-        return Retrofit.Builder()
-            .baseUrl(GutenbergApiService.BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .build()
-            .create(GutenbergApiService::class.java)
-    }
+        /**
+         * توفير كائن الوصول لبيانات الإشارات المرجعية
+         */
+        @Provides
+        @Singleton
+        fun provideBookmarkDao(database: KitabiDatabase): BookmarkDao {
+            return database.bookmarkDao()
+        }
 
-    // ============ المستودعات ============
+        /**
+         * توفير كائن الوصول لبيانات إحصائيات القراءة
+         */
+        @Provides
+        @Singleton
+        fun provideReadingStatsDao(database: KitabiDatabase): ReadingStatsDao {
+            return database.readingStatsDao()
+        }
 
-    /**
-     * توفير مستودع الكتب
-     */
-    @Provides
-    @Singleton
-    fun provideBookRepository(bookDao: BookDao): BookRepository {
-        return BookRepositoryImpl(bookDao)
-    }
+        /**
+         * توفير واجهة Open Library API
+         */
+        @Provides
+        @Singleton
+        fun provideOpenLibraryApiService(moshi: Moshi, okHttpClient: okhttp3.OkHttpClient): OpenLibraryApiService {
+            return Retrofit.Builder()
+                .baseUrl(OpenLibraryApiService.BASE_URL)
+                .client(okHttpClient)
+                .addConverterFactory(MoshiConverterFactory.create(moshi))
+                .build()
+                .create(OpenLibraryApiService::class.java)
+        }
 
-    /**
-     * توفير مستودع تقدم القراءة
-     */
-    @Provides
-    @Singleton
-    fun provideReadingProgressRepository(readingProgressDao: ReadingProgressDao): ReadingProgressRepository {
-        return ReadingProgressRepositoryImpl(readingProgressDao)
-    }
+        /**
+         * توفير واجهة Google Books API
+         */
+        @Provides
+        @Singleton
+        fun provideGoogleBooksApiService(moshi: Moshi, okHttpClient: okhttp3.OkHttpClient): GoogleBooksApiService {
+            return Retrofit.Builder()
+                .baseUrl(GoogleBooksApiService.BASE_URL)
+                .client(okHttpClient)
+                .addConverterFactory(MoshiConverterFactory.create(moshi))
+                .build()
+                .create(GoogleBooksApiService::class.java)
+        }
 
-    /**
-     * توفير مستودع المتجر الإلكتروني
-     */
-    @Provides
-    @Singleton
-    fun provideOnlineStoreRepository(
-        openLibraryApi: OpenLibraryApiService,
-        googleBooksApi: GoogleBooksApiService,
-        gutenbergApi: GutenbergApiService
-    ): OnlineStoreRepository {
-        return StoreRepositoryImpl(openLibraryApi, googleBooksApi, gutenbergApi)
-    }
-
-    /**
-     * توفير مستودع تفضيلات المستخدم
-     */
-    @Provides
-    @Singleton
-    fun provideUserPreferencesRepository(
-        dataStore: androidx.datastore.core.DataStore<androidx.datastore.preferences.core.Preferences>
-    ): UserPreferencesRepository {
-        return UserPreferencesRepositoryImpl(dataStore)
+        /**
+         * توفير واجهة Gutenberg API
+         */
+        @Provides
+        @Singleton
+        fun provideGutenbergApiService(moshi: Moshi, okHttpClient: okhttp3.OkHttpClient): GutenbergApiService {
+            return Retrofit.Builder()
+                .baseUrl(GutenbergApiService.BASE_URL)
+                .client(okHttpClient)
+                .addConverterFactory(MoshiConverterFactory.create(moshi))
+                .build()
+                .create(GutenbergApiService::class.java)
+        }
     }
 }

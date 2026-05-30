@@ -45,6 +45,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDirection
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -142,13 +143,7 @@ fun ReaderScreen(
                 }
         ) {
             // محتوى الكتاب
-            SelectionContainer(
-                onSelectionChange = { text ->
-                    if (text.isNotEmpty()) {
-                        selectedText = text
-                    }
-                }
-            ) {
+            SelectionContainer {
                 Text(
                     text = uiState.bookContent,
                     style = TextStyle(
@@ -161,10 +156,10 @@ fun ReaderScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(
-                            start = androidx.compose.ui.unit.dp(24),
-                            end = androidx.compose.ui.unit.dp(24),
-                            top = androidx.compose.ui.unit.dp(56),
-                            bottom = androidx.compose.ui.unit.dp(80)
+                            start = 24.dp,
+                            end = 24.dp,
+                            top = 56.dp,
+                            bottom = 80.dp
                         )
                         .verticalScroll(rememberScrollState())
                 )
@@ -220,7 +215,7 @@ fun ReaderScreen(
             exit = fadeOut(),
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = androidx.compose.ui.unit.dp(100))
+                .padding(bottom = 100.dp)
                 .zIndex(3f)
         ) {
             AiQuickActionsBar(
@@ -251,7 +246,7 @@ fun ReaderScreen(
             exit = fadeOut() + slideOutVertically(targetOffsetY = { it }),
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = androidx.compose.ui.unit.dp(16))
+                .padding(bottom = 16.dp)
                 .zIndex(4f)
         ) {
             TtsControls(
@@ -309,9 +304,9 @@ private fun BottomPageBar(
             .fillMaxWidth()
             .background(
                 KitabiTheme.colors.surface,
-                RoundedCornerShape(topStart = androidx.compose.ui.unit.dp(16), topEnd = androidx.compose.ui.unit.dp(16))
+                RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
             )
-            .padding(horizontal = androidx.compose.ui.unit.dp(16), vertical = androidx.compose.ui.unit.dp(12)),
+            .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -331,25 +326,25 @@ private fun BottomPageBar(
         )
 
         // شريط التقدم البسيط
-        Spacer(modifier = Modifier.width(androidx.compose.ui.unit.dp(12)))
+        Spacer(modifier = Modifier.width(12.dp))
 
         val progress = if (totalPages > 0) currentPage.toFloat() / totalPages else 0f
         Box(
             modifier = Modifier
-                .width(androidx.compose.ui.unit.dp(80))
-                .height(androidx.compose.ui.unit.dp(4))
+                .width(80.dp)
+                .height(4.dp)
                 .background(
                     KitabiTheme.colors.outlineVariant,
-                    RoundedCornerShape(androidx.compose.ui.unit.dp(2))
+                    RoundedCornerShape(2.dp)
                 )
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth(progress)
-                    .height(androidx.compose.ui.unit.dp(4))
+                    .height(4.dp)
                     .background(
                         KitabiTheme.colors.primary,
-                        RoundedCornerShape(androidx.compose.ui.unit.dp(2))
+                        RoundedCornerShape(2.dp)
                     )
             )
         }
@@ -369,13 +364,13 @@ private fun AiQuickActionsBar(
 ) {
     Row(
         modifier = Modifier
-            .padding(horizontal = androidx.compose.ui.unit.dp(16))
+            .padding(horizontal = 16.dp)
             .background(
                 KitabiTheme.colors.surfaceVariant,
-                RoundedCornerShape(androidx.compose.ui.unit.dp(24))
+                RoundedCornerShape(24.dp)
             )
-            .padding(horizontal = androidx.compose.ui.unit.dp(8), vertical = androidx.compose.ui.unit.dp(6)),
-        horizontalArrangement = Arrangement.spacedBy(androidx.compose.ui.unit.dp(4))
+            .padding(horizontal = 8.dp, vertical = 6.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         AiActionChip(text = "تلخيص", onClick = onSummarize)
         AiActionChip(text = "شرح", onClick = onExplain)
@@ -396,10 +391,10 @@ private fun AiActionChip(
         modifier = Modifier
             .background(
                 KitabiTheme.colors.primaryContainer,
-                RoundedCornerShape(androidx.compose.ui.unit.dp(16))
+                RoundedCornerShape(16.dp)
             )
             .clickable(onClick = onClick)
-            .padding(horizontal = androidx.compose.ui.unit.dp(14), vertical = androidx.compose.ui.unit.dp(6)),
+            .padding(horizontal = 14.dp, vertical = 6.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(

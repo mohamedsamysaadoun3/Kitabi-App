@@ -14,10 +14,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -39,7 +37,6 @@ import com.kitabi.app.feature.store.components.storeCategories
  * شاشة المتجر
  * تعرض كتباً إلكترونية من مصادر مجانية متعددة
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StoreScreen(
     onBookClick: (OnlineBook) -> Unit = {},
@@ -48,9 +45,7 @@ fun StoreScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    PullToRefreshBox(
-        isRefreshing = uiState.isRefreshing,
-        onRefresh = { viewModel.refresh() },
+    Box(
         modifier = Modifier.fillMaxSize()
     ) {
         if (uiState.isLoading && uiState.featuredBooks.isEmpty()) {

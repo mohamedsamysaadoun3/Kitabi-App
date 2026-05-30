@@ -135,7 +135,8 @@ private fun BookQuoteCard(
         Text(
             text = quote,
             style = MaterialTheme.typography.bodySmall,
-            fontWeight = FontWeight.Italic,
+            fontWeight = FontWeight.Light,
+            fontStyle = androidx.compose.ui.text.font.FontStyle.Italic,
             color = if (isFromCurrentUser) KitabiTheme.colors.onPrimary else KitabiTheme.colors.onSurfaceVariant,
             maxLines = 3,
             overflow = TextOverflow.Ellipsis

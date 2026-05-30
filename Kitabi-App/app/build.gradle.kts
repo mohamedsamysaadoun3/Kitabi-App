@@ -117,4 +117,8 @@ dependencies {
     implementation(libs.activity.compose)
     implementation(libs.splashscreen)
     implementation(libs.security.crypto)
+
+    // مطلوب لـ WorkManager (ListenableFuture)
+    implementation("com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava")
+    implementation("com.google.guava:guava:33.0.0-android")
 }

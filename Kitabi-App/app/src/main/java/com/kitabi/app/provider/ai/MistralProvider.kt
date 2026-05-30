@@ -198,7 +198,7 @@ class MistralProvider @Inject constructor(
             response.text.split("\n")
                 .filter { it.trim().startsWith("-") || it.trim().matches(Regex("^\\d+\\..*")) }
                 .take(5)
-                .map { Question(text = it.trim().removePrefix("-").removePrefix("\\d+\\.".toRegex())) }
+                .map { Question(text = it.trim().removePrefix("-").replace("\\d+\\.".toRegex(), "")) }
         }
     }
 
@@ -221,7 +221,7 @@ class MistralProvider @Inject constructor(
         return response.text.split("\n")
             .map { it.trim() }
             .filter { it.startsWith("-") || it.startsWith("•") || it.matches(Regex("^\\d+[.،].*")) }
-            .map { it.removePrefix("-").removePrefix("•").trim().removePrefix("\\d+[.،]".toRegex()).trim() }
+            .map { it.removePrefix("-").removePrefix("•").trim().replace("\\d+[.،]".toRegex(), "").trim() }
             .filter { it.isNotEmpty() }
     }
 

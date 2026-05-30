@@ -64,7 +64,7 @@ class FirebaseReviewRepository @Inject constructor(
     override suspend fun likeReview(reviewId: String): Result<Unit> {
         return try {
             firestore.collection("reviews").document(reviewId)
-                .update("likesCount", com.google.firebase.firestore.FieldPath.of("likesCount"), com.google.firebase.firestore.FieldValue.increment(1))
+                .update("likesCount", com.google.firebase.firestore.FieldValue.increment(1))
                 .await()
             Result.success(Unit)
         } catch (e: Exception) {
@@ -75,7 +75,7 @@ class FirebaseReviewRepository @Inject constructor(
     override suspend fun unlikeReview(reviewId: String): Result<Unit> {
         return try {
             firestore.collection("reviews").document(reviewId)
-                .update("likesCount", com.google.firebase.firestore.FieldPath.of("likesCount"), com.google.firebase.firestore.FieldValue.increment(-1))
+                .update("likesCount", com.google.firebase.firestore.FieldValue.increment(-1))
                 .await()
             Result.success(Unit)
         } catch (e: Exception) {

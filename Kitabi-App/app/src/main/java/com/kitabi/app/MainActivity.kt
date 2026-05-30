@@ -7,6 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -14,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.kitabi.app.core.designsystem.KitabiTheme
 import com.kitabi.app.core.navigation.KitabiNavHost
+import com.kitabi.app.domain.repository.UserPreferencesRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,6 +34,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var remoteConfig: FirebaseRemoteConfig
+
+    @Inject
+    lateinit var userPreferencesRepository: UserPreferencesRepository
 
     // حالة الاستمرار في عرض شاشة البداية
     private var keepSplashScreen by mutableStateOf(true)
@@ -54,7 +60,9 @@ class MainActivity : ComponentActivity() {
         remoteConfig.activate()
 
         setContent {
-            KitabiTheme {
+            val isDarkMode by userPreferencesRepository.isDarkMode.collectAsState(initial = isSystemInDarkTheme())
+            
+            KitabiTheme(darkTheme = isDarkMode) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -62,10 +70,10 @@ class MainActivity : ComponentActivity() {
                     KitabiNavHost()
                 }
             }
+            
+            // إخفاء شاشة البداية بعد اكتمال التهيئة
+            keepSplashScreen = false
         }
-
-        // إخفاء شاشة البداية بعد اكتمال التهيئة
-        keepSplashScreen = false
     }
 
     /**

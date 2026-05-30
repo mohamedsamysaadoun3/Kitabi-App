@@ -28,6 +28,7 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         val READER_THEME = stringPreferencesKey("reader_theme")
         val IS_GRID_VIEW = booleanPreferencesKey("is_grid_view")
         val SELECTED_CATEGORY = stringPreferencesKey("selected_category")
+        val AI_PROVIDER = stringPreferencesKey("ai_provider")
     }
 
     override val isDarkMode: Flow<Boolean> = dataStore.data.map { prefs ->
@@ -54,6 +55,10 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         prefs[Keys.SELECTED_CATEGORY] ?: "ALL"
     }
 
+    override val aiProvider: Flow<String> = dataStore.data.map { prefs ->
+        prefs[Keys.AI_PROVIDER] ?: "mistral"
+    }
+
     override suspend fun setDarkMode(isDark: Boolean) {
         dataStore.edit { prefs -> prefs[Keys.IS_DARK_MODE] = isDark }
     }
@@ -76,5 +81,9 @@ class UserPreferencesRepositoryImpl @Inject constructor(
 
     override suspend fun setSelectedCategory(category: String) {
         dataStore.edit { prefs -> prefs[Keys.SELECTED_CATEGORY] = category }
+    }
+
+    override suspend fun setAiProvider(provider: String) {
+        dataStore.edit { prefs -> prefs[Keys.AI_PROVIDER] = provider }
     }
 }

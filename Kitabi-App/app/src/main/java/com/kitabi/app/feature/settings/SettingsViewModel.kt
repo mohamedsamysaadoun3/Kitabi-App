@@ -7,8 +7,11 @@ import com.kitabi.app.domain.repository.AuthRepository
 import com.kitabi.app.domain.repository.UserCounterRepository
 import com.kitabi.app.domain.repository.UserPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -45,8 +48,8 @@ class SettingsViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
 
     /** مزود الذكاء الاصطناعي المختار */
-    private val _aiProvider = kotlinx.coroutines.flow.MutableStateFlow("mistral")
-    val aiProvider: StateFlow<String> = _aiProvider
+    val aiProvider: StateFlow<String> = userPreferencesRepository.aiProvider
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), "mistral")
 
     /**
      * تحديث الوضع الداكن
@@ -79,6 +82,8 @@ class SettingsViewModel @Inject constructor(
      * تحديث مزود الذكاء الاصطناعي
      */
     fun setAiProvider(provider: String) {
-        _aiProvider.value = provider
+        viewModelScope.launch {
+            userPreferencesRepository.setAiProvider(provider)
+        }
     }
 }

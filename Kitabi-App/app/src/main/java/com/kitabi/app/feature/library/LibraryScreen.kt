@@ -6,6 +6,7 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -167,23 +168,53 @@ private fun LibraryHeader(
     bookCount: Int,
     completedBooksCount: Int
 ) {
-    Column(
+    Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 16.dp)
+            .padding(horizontal = 20.dp, vertical = 12.dp),
+        shape = RoundedCornerShape(20.dp),
+        color = KitabiTheme.colors.primaryContainer.copy(alpha = 0.3f)
     ) {
-        Text(
-            text = "مرحباً 👋",
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold,
-            color = KitabiTheme.colors.onBackground
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = "لديك $bookCount كتاب في مكتبتك • أكملت $completedBooksCount كتاب",
-            style = MaterialTheme.typography.bodyMedium,
-            color = KitabiTheme.colors.onSurfaceVariant
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = "$bookCount",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = KitabiTheme.colors.primary
+                )
+                Text(
+                    text = "كتاب",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = KitabiTheme.colors.onSurfaceVariant
+                )
+            }
+
+            Box(
+                modifier = Modifier
+                    .size(1.dp, 40.dp)
+                    .background(KitabiTheme.colors.outlineVariant)
+            )
+
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = "$completedBooksCount",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = KitabiTheme.colors.secondary
+                )
+                Text(
+                    text = "مكتمل",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = KitabiTheme.colors.onSurfaceVariant
+                )
+            }
+        }
     }
 }
 

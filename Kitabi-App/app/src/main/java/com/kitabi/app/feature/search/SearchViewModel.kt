@@ -7,45 +7,28 @@ import com.kitabi.app.domain.model.OnlineBook
 import com.kitabi.app.domain.repository.BookRepository
 import com.kitabi.app.domain.usecase.SearchBooksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/**
- * حالة شاشة البحث
- */
 data class SearchUiState(
-    /** نص البحث */
     val query: String = "",
-
-    /** التبويب النشط (0: جهازي، 1: متجر) */
-    val activeTab: Int = 0,
-
-    /** نتائج البحث المحلية */
+    val activeTab: Int = 1,  // Default to online store tab
     val localResults: List<Book> = emptyList(),
-
-    /** نتائج البحث الإلكترونية */
     val onlineResults: List<OnlineBook> = emptyList(),
-
-    /** عمليات البحث الأخيرة */
     val recentSearches: List<String> = emptyList(),
-
-    /** اقتراحات البحث */
     val suggestions: List<String> = emptyList(),
-
-    /** هل يتم البحث */
     val isSearching: Boolean = false,
-
-    /** رسالة الخطأ */
-    val error: String? = null
+    val error: String? = null,
+    val hasSearched: Boolean = false  // Track if user has searched
 )
 
-/**
- * نموذج عرض شاشة البحث
- * يدير عمليات البحث المحلية والإلكترونية
- */
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val bookRepository: BookRepository,
@@ -55,53 +38,75 @@ class SearchViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(SearchUiState())
     val uiState: StateFlow<SearchUiState> = _uiState.asStateFlow()
 
-    /**
-     * تحديث نص البحث
-     */
-    fun updateQuery(query: String) {
-        _uiState.value = _uiState.value.copy(query = query)
+    private val _searchQuery = MutableStateFlow("")
+    private var searchJob: Job? = null
 
-        // اقتراحات البحث
-        if (query.isNotBlank()) {
-            val suggestions = listOf(
-                "روايات عربية",
-                "كتب تاريخ",
-                "أدب إسلامي",
-                "فلسفة",
-                "علم نفس",
-                "كتب أطفال"
-            ).filter { it.contains(query, ignoreCase = true) }
-            _uiState.value = _uiState.value.copy(suggestions = suggestions)
-        } else {
-            _uiState.value = _uiState.value.copy(suggestions = emptyList())
+    init {
+        // Auto-search with 500ms debounce
+        viewModelScope.launch {
+            _searchQuery
+                .debounce(500)
+                .distinctUntilChanged()
+                .filter { it.isNotBlank() }
+                .collect { query ->
+                    performSearch(query)
+                }
         }
     }
 
-    /**
-     * تنفيذ البحث
-     */
+    fun updateQuery(query: String) {
+        _uiState.value = _uiState.value.copy(query = query)
+        _searchQuery.value = query
+
+        if (query.isBlank()) {
+            _uiState.value = _uiState.value.copy(
+                suggestions = emptyList(),
+                onlineResults = emptyList(),
+                localResults = emptyList(),
+                hasSearched = false
+            )
+        } else {
+            // Dynamic suggestions based on common Arabic book categories
+            val allSuggestions = listOf(
+                "روايات عربية", "كتب تاريخ", "أدب إسلامي",
+                "فلسفة", "علم نفس", "كتب أطفال",
+                "تطوير ذات", "أعمال", "شعر عربي",
+                "كتب طبخ", "رحلات", "سياسة",
+                "أندرسن", "شكسبير", "نجيب محفوظ",
+                "طه حسين", "العقاد", "المتنبي"
+            )
+            val filtered = allSuggestions.filter { 
+                it.contains(query, ignoreCase = true) 
+            }.take(6)
+            _uiState.value = _uiState.value.copy(suggestions = filtered)
+        }
+    }
+
     fun search() {
         val query = _uiState.value.query.trim()
         if (query.isBlank()) return
+        searchJob?.cancel()
+        performSearch(query)
+    }
 
-        viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isSearching = true, error = null)
+    private fun performSearch(query: String) {
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isSearching = true, error = null, hasSearched = true)
 
-            // إضافة للبحث الأخير
+            // Add to recent searches
             val recentSearches = (_uiState.value.recentSearches - query).toMutableList()
             recentSearches.add(0, query)
-            _uiState.value = _uiState.value.copy(
-                recentSearches = recentSearches.take(10)
-            )
+            _uiState.value = _uiState.value.copy(recentSearches = recentSearches.take(10))
 
-            // البحث المحلي
+            // Search locally
             try {
                 bookRepository.searchBooks(query).collect { books ->
                     _uiState.value = _uiState.value.copy(localResults = books)
                 }
             } catch (_: Exception) { }
 
-            // البحث الإلكتروني
+            // Search online
             searchBooksUseCase(query).onSuccess { books ->
                 _uiState.value = _uiState.value.copy(
                     onlineResults = books,
@@ -116,16 +121,10 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    /**
-     * تبديل التبويب
-     */
     fun setTab(tab: Int) {
         _uiState.value = _uiState.value.copy(activeTab = tab)
     }
 
-    /**
-     * مسح البحث
-     */
     fun clearSearch() {
         _uiState.value = _uiState.value.copy(
             query = "",
@@ -133,13 +132,12 @@ class SearchViewModel @Inject constructor(
             onlineResults = emptyList(),
             suggestions = emptyList(),
             isSearching = false,
-            error = null
+            error = null,
+            hasSearched = false
         )
+        _searchQuery.value = ""
     }
 
-    /**
-     * حذف بحث أخير
-     */
     fun deleteRecentSearch(query: String) {
         _uiState.value = _uiState.value.copy(
             recentSearches = _uiState.value.recentSearches - query

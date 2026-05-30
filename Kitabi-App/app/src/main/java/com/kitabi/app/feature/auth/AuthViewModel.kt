@@ -45,7 +45,8 @@ class AuthViewModel @Inject constructor(
             authRepository.currentUser.collect { user ->
                 _uiState.value = _uiState.value.copy(
                     user = user,
-                    isLoggedIn = user != null
+                    isLoggedIn = user != null,
+                    error = null  // مسح الخطأ عند تغير حالة المستخدم
                 )
             }
         }
@@ -94,6 +95,16 @@ class AuthViewModel @Inject constructor(
                         error = e.message
                     )
                 }
+        }
+    }
+
+    /**
+     * تسجيل الخروج
+     */
+    fun signOut() {
+        viewModelScope.launch {
+            authRepository.signOut()
+            _uiState.value = AuthUiState()
         }
     }
 

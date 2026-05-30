@@ -40,6 +40,7 @@ import com.kitabi.app.feature.review.WriteReviewScreen
 import com.kitabi.app.feature.search.SearchScreen
 import com.kitabi.app.feature.settings.SettingsScreen
 import com.kitabi.app.feature.stats.StatsScreen
+import com.kitabi.app.feature.store.BookDetailScreen
 import com.kitabi.app.feature.store.StoreScreen
 
 /**
@@ -154,7 +155,7 @@ fun KitabiNavHost(
             composable(Route.Store.route) {
                 StoreScreen(
                     onBookClick = { book ->
-                        // الانتقال لتفاصيل الكتاب
+                        navController.navigate(Route.BookDetail.createRoute(book.sourceId, book.source))
                     },
                     onNavigateToSearch = {
                         navController.navigate(Route.Search.route)
@@ -169,8 +170,26 @@ fun KitabiNavHost(
                         navController.navigate(Route.Reader.createRoute(bookId))
                     },
                     onOnlineBookClick = { book ->
-                        // الانتقال لتفاصيل الكتاب الإلكتروني
+                        navController.navigate(Route.BookDetail.createRoute(book.sourceId, book.source))
                     }
+                )
+            }
+
+            // شاشة تفاصيل الكتاب الإلكتروني
+            composable(
+                route = Route.BookDetail.route,
+                arguments = listOf(
+                    navArgument("bookId") { type = NavType.StringType },
+                    navArgument("source") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val bookId = backStackEntry.arguments?.getString("bookId") ?: ""
+                val source = backStackEntry.arguments?.getString("source") ?: ""
+                BookDetailScreen(
+                    bookId = bookId,
+                    source = source,
+                    onBack = { navController.popBackStack() },
+                    onReadBook = { navController.navigate(Route.Reader.createRoute(bookId)) }
                 )
             }
 

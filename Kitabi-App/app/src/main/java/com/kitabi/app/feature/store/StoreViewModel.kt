@@ -79,41 +79,49 @@ class StoreViewModel @Inject constructor(
     fun loadStoreData() {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
-
-            // تحميل الكتب المميزة
-            getFeaturedBooksUseCase().onSuccess { featured ->
-                _uiState.value = _uiState.value.copy(featuredBooks = featured)
-            }.onFailure { e ->
-                _uiState.value = _uiState.value.copy(error = e.message)
-            }
-
-            // تحميل الأكثر قراءة
-            storeRepository.getMostReadBooks().onSuccess { books ->
-                _uiState.value = _uiState.value.copy(mostReadBooks = books)
-            }
-
-            // تحميل الكتب الجديدة
-            storeRepository.getNewBooks().onSuccess { books ->
-                _uiState.value = _uiState.value.copy(newBooks = books)
-            }
-
-            // تحميل الكتب المترجمة
-            storeRepository.getTranslatedBooks().onSuccess { books ->
-                _uiState.value = _uiState.value.copy(translatedBooks = books)
-            }
-
-            // تحميل الكتب العربية الأصيلة
-            storeRepository.getArabicOriginalBooks().onSuccess { books ->
-                _uiState.value = _uiState.value.copy(arabicOriginalBooks = books)
-            }
-
-            // تحميل كتب ملكية عامة
-            storeRepository.getPublicDomainBooks().onSuccess { books ->
-                _uiState.value = _uiState.value.copy(publicDomainBooks = books)
-            }
-
-            _uiState.value = _uiState.value.copy(isLoading = false)
+            loadStoreDataInternal()
         }
+    }
+
+    /**
+     * المنطق الداخلي لتحميل البيانات (suspend)
+     */
+    private suspend fun loadStoreDataInternal() {
+        _uiState.value = _uiState.value.copy(error = null)
+
+        // تحميل الكتب المميزة
+        getFeaturedBooksUseCase().onSuccess { featured ->
+            _uiState.value = _uiState.value.copy(featuredBooks = featured)
+        }.onFailure { e ->
+            _uiState.value = _uiState.value.copy(error = e.message)
+        }
+
+        // تحميل الأكثر قراءة
+        storeRepository.getMostReadBooks().onSuccess { books ->
+            _uiState.value = _uiState.value.copy(mostReadBooks = books)
+        }
+
+        // تحميل الكتب الجديدة
+        storeRepository.getNewBooks().onSuccess { books ->
+            _uiState.value = _uiState.value.copy(newBooks = books)
+        }
+
+        // تحميل الكتب المترجمة
+        storeRepository.getTranslatedBooks().onSuccess { books ->
+            _uiState.value = _uiState.value.copy(translatedBooks = books)
+        }
+
+        // تحميل الكتب العربية الأصيلة
+        storeRepository.getArabicOriginalBooks().onSuccess { books ->
+            _uiState.value = _uiState.value.copy(arabicOriginalBooks = books)
+        }
+
+        // تحميل كتب ملكية عامة
+        storeRepository.getPublicDomainBooks().onSuccess { books ->
+            _uiState.value = _uiState.value.copy(publicDomainBooks = books)
+        }
+
+        _uiState.value = _uiState.value.copy(isLoading = false)
     }
 
     /**
@@ -122,7 +130,7 @@ class StoreViewModel @Inject constructor(
     fun refresh() {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isRefreshing = true)
-            loadStoreData()
+            loadStoreDataInternal()
             _uiState.value = _uiState.value.copy(isRefreshing = false)
         }
     }

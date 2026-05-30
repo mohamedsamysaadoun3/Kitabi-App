@@ -26,6 +26,9 @@ interface UserPreferencesRepository {
     /** التصنيف المختار */
     val selectedCategory: Flow<String>
 
+    /** مزود الذكاء الاصطناعي */
+    val aiProvider: Flow<String>
+
     /** تحديث الوضع الداكن */
     suspend fun setDarkMode(isDark: Boolean)
 
@@ -43,4 +46,7 @@ interface UserPreferencesRepository {
 
     /** تحديث التصنيف المختار */
     suspend fun setSelectedCategory(category: String)
+
+    /** تحديث مزود الذكاء الاصطناعي */
+    suspend fun setAiProvider(provider: String)
 }

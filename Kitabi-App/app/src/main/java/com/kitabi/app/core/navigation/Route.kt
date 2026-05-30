@@ -35,6 +35,11 @@ sealed class Route(val route: String) {
         fun createRoute(bookId: String): String = "reader/$bookId"
     }
 
+    /** شاشة تفاصيل الكتاب الإلكتروني */
+    object BookDetail : Route("book_detail/{bookId}/{source}") {
+        fun createRoute(bookId: String, source: String): String = "book_detail/$bookId/$source"
+    }
+
     /** شاشة البحث */
     object Search : Route("search")
 

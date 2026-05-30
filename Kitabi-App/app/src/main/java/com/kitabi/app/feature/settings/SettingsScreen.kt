@@ -36,6 +36,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
+import androidx.compose.material3.Surface
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
@@ -51,6 +52,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.runtime.collectAsState
 import com.kitabi.app.core.designsystem.KitabiTheme
@@ -397,44 +399,68 @@ private fun RowScope.ThemeOption(
 }
 
 /**
- * إعداد الوضع الداكن
+ * إعداد الوضع الداكن - تصميم حديث مع أيقونات شمس/قمر
  */
 @Composable
 private fun DarkModeSetting(
     isDarkMode: Boolean,
     onToggle: (Boolean) -> Unit
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(
-                KitabiTheme.colors.surface,
-                RoundedCornerShape(16.dp)
-            )
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
+    Surface(
+        shape = RoundedCornerShape(16.dp),
+        color = KitabiTheme.colors.surface
     ) {
-        Icon(
-            imageVector = Icons.Filled.DarkMode,
-            contentDescription = null,
-            tint = KitabiTheme.colors.onSurfaceVariant,
-            modifier = Modifier.size(20.dp)
-        )
-        Spacer(modifier = Modifier.width(12.dp))
-        Text(
-            text = "الوضع الداكن",
-            style = MaterialTheme.typography.bodyMedium,
-            color = KitabiTheme.colors.onSurface,
-            modifier = Modifier.weight(1f)
-        )
-        Switch(
-            checked = isDarkMode,
-            onCheckedChange = onToggle,
-            colors = SwitchDefaults.colors(
-                checkedTrackColor = KitabiTheme.colors.primary,
-                checkedThumbColor = KitabiTheme.colors.onPrimary
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onToggle(!isDarkMode) }
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // أيقونة الشمس أو القمر
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .background(
+                        if (isDarkMode) KitabiTheme.colors.primaryContainer
+                        else KitabiTheme.colors.secondaryContainer,
+                        CircleShape
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = if (isDarkMode) "\uD83C\uDF19" else "\u2600\uFE0F",
+                    fontSize = 20.sp
+                )
+            }
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = if (isDarkMode) "\u0627\u0644\u0648\u0636\u0639 \u0627\u0644\u062F\u0627\u0643\u0646" else "\u0627\u0644\u0648\u0636\u0639 \u0627\u0644\u0641\u0627\u062A\u062D",
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = KitabiTheme.colors.onSurface
+                )
+                Text(
+                    text = if (isDarkMode) "\u0646\u0638\u0627\u0645 \u0627\u0644\u0623\u0644\u0648\u0627\u0646 \u0627\u0644\u062F\u0627\u0643\u0646 \u0646\u0634\u0637" else "\u0627\u0636\u063A\u0637 \u0644\u0644\u062A\u0628\u062F\u064A\u0644 \u0644\u0644\u0648\u0636\u0639 \u0627\u0644\u062F\u0627\u0643\u0646",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = KitabiTheme.colors.onSurfaceVariant
+                )
+            }
+
+            Switch(
+                checked = isDarkMode,
+                onCheckedChange = onToggle,
+                colors = SwitchDefaults.colors(
+                    checkedTrackColor = KitabiTheme.colors.primary,
+                    checkedThumbColor = KitabiTheme.colors.onPrimary,
+                    uncheckedTrackColor = KitabiTheme.colors.surfaceVariant,
+                    uncheckedThumbColor = KitabiTheme.colors.outline
+                )
             )
-        )
+        }
     }
 }
 

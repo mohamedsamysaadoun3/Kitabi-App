@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "397944267136",
+    "firebase_url": "https://kitabi-20c92-default-rtdb.firebaseio.com",
+    "project_id": "kitabi-20c92",
+    "storage_bucket": "kitabi-20c92.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:397944267136:android:a87e5f4b6d7febadcfe165",
+        "android_client_info": {
+          "package_name": "com.kitabi.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "397944267136-p9g40t7oc9713t8pd5ljd5pc9ojld20t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSvTWhgn2euYCo5hYHAo2Vep7Fo8lHD0w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "397944267136-p9g40t7oc9713t8pd5ljd5pc9ojld20t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

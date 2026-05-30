@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- موارد السلاسل النصية لتطبيق كتابي - جميع النصوص بالعربية -->
+<resources>
+    <!-- اسم التطبيق -->
+    <string name="app_name">كتابي</string>
+    <string name="app_name_debug">كتابي (تجريبي)</string>
+
+    <!-- شاشة التعريف الأولي -->
+    <string name="onboarding_welcome">مرحباً بك في كتابي</string>
+    <string name="onboarding_subtitle">عالم الكتب العربية في جيبك</string>
+    <string name="onboarding_feature_1">اقرأ آلاف الكتب العربية</string>
+    <string name="onboarding_feature_2">مساعد ذكي يفهم الكتب</string>
+    <string name="onboarding_feature_3">ناقش الكتب مع قراء آخرين</string>
+    <string name="onboarding_feature_4">تتبع تقدم قراءتك</string>
+    <string name="onboarding_start">ابدأ الآن</string>
+    <string name="onboarding_skip">تخطي</string>
+    <string name="onboarding_next">التالي</string>
+
+    <!-- المصادقة -->
+    <string name="auth_login">تسجيل الدخول</string>
+    <string name="auth_register">إنشاء حساب</string>
+    <string name="auth_email">البريد الإلكتروني</string>
+    <string name="auth_password">كلمة المرور</string>
+    <string name="auth_confirm_password">تأكيد كلمة المرور</string>
+    <string name="auth_name">الاسم</string>
+    <string name="auth_forgot_password">نسيت كلمة المرور؟</string>
+    <string name="auth_google">تسجيل الدخول بحساب Google</string>
+    <string name="auth_guest">المتابعة كضيف</string>
+    <string name="auth_or">أو</string>
+    <string name="auth_no_account">ليس لديك حساب؟</string>
+    <string name="auth_has_account">لديك حساب بالفعل؟</string>
+
+    <!-- شريط التنقل السفلي -->
+    <string name="nav_library">المكتبة</string>
+    <string name="nav_store">المتجر</string>
+    <string name="nav_search">بحث</string>
+    <string name="nav_bookmarks">الإشارات</string>
+    <string name="nav_settings">الإعدادات</string>
+
+    <!-- المكتبة -->
+    <string name="library_title">مكتبتي</string>
+    <string name="library_empty">لم تُضف كتباً بعد</string>
+    <string name="library_empty_subtitle">ابدأ بإضافة كتب من المتجر أو من جهازك</string>
+    <string name="library_all">الكل</string>
+    <string name="library_reading">قيد القراءة</string>
+    <string name="library_completed">مكتمل</string>
+    <string name="library_not_started">لم يُقرأ</string>
+    <string name="library_favorites">المفضلة</string>
+    <string name="library_sort_by">ترتيب حسب</string>
+    <string name="library_sort_recent">الأحدث</string>
+    <string name="library_sort_title">العنوان</string>
+    <string name="library_sort_author">المؤلف</string>
+    <string name="library_sort_progress">التقدم</string>
+
+    <!-- المتجر -->
+    <string name="store_title">المتجر</string>
+    <string name="store_featured">مميز</string>
+    <string name="store_new">جديد</string>
+    <string name="store_popular">الأكثر شعبية</string>
+    <string name="store_categories">التصنيفات</string>
+    <string name="store_free">مجاني</string>
+    <string name="store_download">تحميل</string>
+    <string name="store_downloading">جارٍ التحميل…</string>
+
+    <!-- البحث -->
+    <string name="search_title">البحث</string>
+    <string name="search_hint">ابحث عن كتاب، مؤلف، أو تصنيف…</string>
+    <string name="search_recent">البحوث الأخيرة</string>
+    <string name="search_no_results">لم يتم العثور على نتائج</string>
+    <string name="search_clear_history">مسح السجل</string>
+
+    <!-- القارئ -->
+    <string name="reader_chapter">الفصل %1$d</string>
+    <string name="reader_page">صفحة %1$d من %2$d</string>
+    <string name="reader_font_size">حجم الخط</string>
+    <string name="reader_brightness">السطوع</string>
+    <string name="reader_theme_light">فاتح</string>
+    <string name="reader_theme_dark">داكن</string>
+    <string name="reader_theme_sepia">سيبيا</string>
+    <string name="reader_table_of_contents">فهرس المحتويات</string>
+    <string name="reader_bookmark_added">تمت إضافة إشارة مرجعية</string>
+    <string name="reader_bookmark_removed">تمت إزالة الإشارة المرجعية</string>
+
+    <!-- الإشارات المرجعية -->
+    <string name="bookmarks_title">الإشارات المرجعية</string>
+    <string name="bookmarks_empty">لا توجد إشارات مرجعية</string>
+    <string name="bookmarks_empty_subtitle">أضف إشارات أثناء القراءة للوصول السريع</string>
+
+    <!-- الإعدادات -->
+    <string name="settings_title">الإعدادات</string>
+    <string name="settings_appearance">المظهر</string>
+    <string name="settings_dark_mode">الوضع الداكن</string>
+    <string name="settings_language">اللغة</string>
+    <string name="settings_reading">القراءة</string>
+    <string name="settings_default_font_size">حجم الخط الافتراضي</string>
+    <string name="settings_default_theme">سمة القراءة الافتراضية</string>
+    <string name="settings_account">الحساب</string>
+    <string name="settings_logout">تسجيل الخروج</string>
+    <string name="settings_about">حول التطبيق</string>
+    <string name="settings_version">الإصدار %1$s</string>
+    <string name="settings_notifications">الإشعارات</string>
+    <string name="settings_reading_reminder">تذكير القراءة اليومي</string>
+    <string name="settings_storage">التخزين</string>
+    <string name="settings_clear_cache">مسح ذاكرة التخزين المؤقت</string>
+    <string name="settings_download_wifi">التحميل عبر Wi-Fi فقط</string>
+
+    <!-- الإحصائيات -->
+    <string name="stats_title">إحصائيات القراءة</string>
+    <string name="stats_books_read">كتب مقروءة</string>
+    <string name="stats_pages_read">صفحات مقروءة</string>
+    <string name="stats_reading_streak">أيام متتالية</string>
+    <string name="stats_reading_time">وقت القراءة</string>
+    <string name="stats_this_week">هذا الأسبوع</string>
+    <string name="stats_this_month">هذا الشهر</string>
+    <string name="stats_this_year">هذا العام</string>
+
+    <!-- الذكاء الاصطناعي -->
+    <string name="ai_assistant_title">المساعد الذكي</string>
+    <string name="ai_summarize">تلخيص</string>
+    <string name="ai_explain">شرح</string>
+    <string name="ai_translate">ترجمة</string>
+    <string name="ai_analyze">تحليل</string>
+    <string name="ai_question">سؤال</string>
+    <string name="ai_similar">كتب مشابهة</string>
+    <string name="ai_typing">يكتب…</string>
+    <string name="ai_thinking">يفكر…</string>
+
+    <!-- المحادثة -->
+    <string name="chat_rooms_title">غرف المحادثة</string>
+    <string name="chat_room_title">غرفة المحادثة</string>
+    <string name="chat_message_hint">اكتب رسالتك…</string>
+    <string name="chat_members">%1$d عضو</string>
+
+    <!-- المراجعات -->
+    <string name="reviews_title">المراجعات</string>
+    <string name="reviews_write">اكتب مراجعة</string>
+    <string name="reviews_rating_hint">ما تقييمك؟</string>
+    <string name="reviews_text_hint">شاركنا رأيك في الكتاب…</string>
+    <string name="reviews_submit">نشر المراجعة</string>
+    <string name="reviews_empty">لا توجد مراجعات بعد</string>
+    <string name="reviews_be_first">كن أول من يراجع هذا الكتاب</string>
+
+    <!-- عام -->
+    <string name="ok">موافق</string>
+    <string name="cancel">إلغاء</string>
+    <string name="save">حفظ</string>
+    <string name="delete">حذف</string>
+    <string name="edit">تعديل</string>
+    <string name="share">مشاركة</string>
+    <string name="retry">إعادة المحاولة</string>
+    <string name="loading">جارٍ التحميل…</string>
+    <string name="error_generic">حدث خطأ غير متوقع</string>
+    <string name="error_network">لا يوجد اتصال بالإنترنت</string>
+    <string name="error_auth">فشل تسجيل الدخول</string>
+    <string name="no_internet">لا يوجد اتصال بالإنترنت</string>
+    <string name="copied">تم النسخ</string>
+    <string name="added_to_library">تمت الإضافة للمكتبة</string>
+    <string name="removed_from_library">تمت الإزالة من المكتبة</string>
+
+    <!-- صيغ الملفات -->
+    <string name="format_pdf">PDF</string>
+    <string name="format_epub">EPUB</string>
+    <string name="format_txt">TXT</string>
+
+    <!-- حالة التحميل -->
+    <string name="download_not_started">لم يتم التحميل</string>
+    <string name="download_in_progress">جارٍ التحميل %1$d%%</string>
+    <string name="download_paused">تم الإيقاف</string>
+    <string name="download_completed">تم التحميل</string>
+    <string name="download_failed">فشل التحميل</string>
+
+    <!-- التصنيفات -->
+    <string name="category_general">عام</string>
+    <string name="category_literature">أدب وروايات</string>
+    <string name="category_poetry">شعر</string>
+    <string name="category_history">تاريخ</string>
+    <string name="category_philosophy">فلسفة</string>
+    <string name="category_religion">دين وعلوم إسلامية</string>
+    <string name="category_psychology">علم نفس</string>
+    <string name="category_science">علوم</string>
+    <string name="category_technology">تقنية</string>
+    <string name="category_business">أعمال وإدارة</string>
+    <string name="category_education">تعليم</string>
+    <string name="category_arts">فنون</string>
+    <string name="category_biography">سير ذاتية</string>
+    <string name="category_children">أطفال</string>
+    <string name="category_health">صحة وعافية</string>
+    <string name="category_cooking">طبخ</string>
+    <string name="category_travel">سفر</string>
+    <string name="category_politics">سياسة</string>
+    <string name="category_law">قانون</string>
+    <string name="category_languages">لغات</string>
+</resources>

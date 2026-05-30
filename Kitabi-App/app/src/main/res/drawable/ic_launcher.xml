@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- أيقونة التطبيق التكيفية - كتاب مفتوح بأسلوب عربي -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- خلفية الأيقونة - أزرق مخضر -->
+    <path
+        android:fillColor="#00695C"
+        android:pathData="M0,0h108v108H0z" />
+
+    <!-- شكل الكتاب المفتوح -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,28 C46,28 34,32 28,34 L28,76 C34,74 46,72 54,72 C62,72 74,74 80,76 L80,34 C74,32 62,28 54,28 Z" />
+
+    <!-- خط الكتاب الأوسط -->
+    <path
+        android:fillColor="#00695C"
+        android:pathData="M54,30 L54,70" />
+
+    <!-- خطوط النص على الصفحة اليسرى -->
+    <path
+        android:fillColor="#A7F3D0"
+        android:pathData="M34,40 L50,40 L50,43 L34,43 Z" />
+    <path
+        android:fillColor="#A7F3D0"
+        android:pathData="M34,46 L50,46 L50,49 L34,49 Z" />
+    <path
+        android:fillColor="#A7F3D0"
+        android:pathData="M34,52 L48,52 L48,55 L34,55 Z" />
+    <path
+        android:fillColor="#A7F3D0"
+        android:pathData="M34,58 L46,58 L46,61 L34,61 Z" />
+
+    <!-- خطوط النص على الصفحة اليمنى -->
+    <path
+        android:fillColor="#A7F3D0"
+        android:pathData="M58,40 L74,40 L74,43 L58,43 Z" />
+    <path
+        android:fillColor="#A7F3D0"
+        android:pathData="M58,46 L74,46 L74,49 L58,49 Z" />
+    <path
+        android:fillColor="#A7F3D0"
+        android:pathData="M60,52 L74,52 L74,55 L60,55 Z" />
+    <path
+        android:fillColor="#A7F3D0"
+        android:pathData="M62,58 L74,58 L74,61 L62,61 Z" />
+
+    <!-- زخرفة ذهبية في الأعلى -->
+    <path
+        android:fillColor="#C49A2B"
+        android:pathData="M48,22 L54,18 L60,22 L54,26 Z" />
+</vector>

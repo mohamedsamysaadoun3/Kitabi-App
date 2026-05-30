@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- مسارات الملفات لمزود الملفات - لمشاركة الكتب والملفات -->
+<paths>
+    <!-- مسار الملفات الخارجية -->
+    <external-files-path
+        name="external_files"
+        path="." />
+
+    <!-- مسار ملفات التطبيق الداخلية -->
+    <files-path
+        name="internal_files"
+        path="." />
+
+    <!-- مسار ذاكرة التخزين المؤقت -->
+    <cache-path
+        name="cache"
+        path="." />
+
+    <!-- مسار الكتب المحملة -->
+    <external-files-path
+        name="books"
+        path="books/" />
+
+    <!-- مسار صور الغلاف -->
+    <external-files-path
+        name="covers"
+        path="covers/" />
+</paths>

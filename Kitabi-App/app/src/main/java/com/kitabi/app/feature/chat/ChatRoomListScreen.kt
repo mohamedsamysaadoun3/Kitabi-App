@@ -39,7 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.collectAsState
 import com.kitabi.app.core.designsystem.KitabiTheme
 import com.kitabi.app.domain.model.ChatRoom
 
@@ -54,7 +54,7 @@ fun ChatRoomListScreen(
     onRoomClick: (String) -> Unit,
     viewModel: ChatViewModel = hiltViewModel()
 ) {
-    val chatRooms by viewModel.chatRooms.collectAsStateWithLifecycle()
+    val chatRooms by viewModel.chatRooms.collectAsState()
 
     Scaffold(
         topBar = {

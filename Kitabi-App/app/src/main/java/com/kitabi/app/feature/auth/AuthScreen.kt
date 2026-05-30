@@ -28,7 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.collectAsState
 import com.kitabi.app.core.designsystem.KitabiTheme
 
 /**
@@ -40,7 +40,7 @@ fun AuthScreen(
     onAuthSuccess: () -> Unit = {},
     viewModel: AuthViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsState()
 
     // إذا تم تسجيل الدخول، الانتقال للشاشة الرئيسية
     if (uiState.isLoggedIn) {

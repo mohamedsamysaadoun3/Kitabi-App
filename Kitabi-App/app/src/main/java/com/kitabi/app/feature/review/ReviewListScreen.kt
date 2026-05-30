@@ -33,7 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.collectAsState
 import com.kitabi.app.core.designsystem.KitabiTheme
 import com.kitabi.app.domain.model.Review
 import com.kitabi.app.feature.review.components.RatingDistribution
@@ -50,9 +50,9 @@ fun ReviewListScreen(
     onWriteReview: () -> Unit,
     viewModel: ReviewViewModel = hiltViewModel()
 ) {
-    val reviews by viewModel.getReviews(bookId).collectAsStateWithLifecycle(initialValue = emptyList())
-    val averageRating by viewModel.averageRating.collectAsStateWithLifecycle()
-    val ratingsCount by viewModel.ratingsCount.collectAsStateWithLifecycle()
+    val reviews by viewModel.getReviews(bookId).collectAsState(emptyList())
+    val averageRating by viewModel.averageRating.collectAsState()
+    val ratingsCount by viewModel.ratingsCount.collectAsState()
 
     Scaffold(
         topBar = {

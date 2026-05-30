@@ -38,7 +38,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.collectAsState
 import com.kitabi.app.core.designsystem.KitabiTheme
 
 /**
@@ -50,11 +50,11 @@ import com.kitabi.app.core.designsystem.KitabiTheme
 fun StatsScreen(
     viewModel: StatsViewModel = hiltViewModel()
 ) {
-    val totalPages by viewModel.totalPagesRead.collectAsStateWithLifecycle()
-    val currentStreak by viewModel.currentStreak.collectAsStateWithLifecycle()
-    val weeklyStats by viewModel.weeklyStats.collectAsStateWithLifecycle()
-    val totalReadingTime by viewModel.totalReadingTime.collectAsStateWithLifecycle()
-    val booksCompleted by viewModel.booksCompleted.collectAsStateWithLifecycle()
+    val totalPages by viewModel.totalPagesRead.collectAsState()
+    val currentStreak by viewModel.currentStreak.collectAsState()
+    val weeklyStats by viewModel.weeklyStats.collectAsState()
+    val totalReadingTime by viewModel.totalReadingTime.collectAsState()
+    val booksCompleted by viewModel.booksCompleted.collectAsState()
 
     Scaffold(
         topBar = {

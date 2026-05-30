@@ -36,7 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.collectAsState
 import com.kitabi.app.core.designsystem.KitabiTheme
 import com.kitabi.app.data.local.entity.BookmarkEntity
 
@@ -50,7 +50,7 @@ fun BookmarksScreen(
     onBookmarkClick: (String, Int) -> Unit,
     viewModel: BookmarksViewModel = hiltViewModel()
 ) {
-    val bookmarks by viewModel.bookmarks.collectAsStateWithLifecycle()
+    val bookmarks by viewModel.bookmarks.collectAsState()
 
     Scaffold(
         topBar = {

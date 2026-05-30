@@ -48,7 +48,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.collectAsState
 import com.kitabi.app.core.designsystem.KitabiTheme
 import com.kitabi.app.domain.model.ChatMessage
 import com.kitabi.app.domain.model.MessageType
@@ -67,9 +67,9 @@ fun ChatRoomScreen(
     onBack: () -> Unit,
     viewModel: ChatViewModel = hiltViewModel()
 ) {
-    val messages by viewModel.getMessages(roomId).collectAsStateWithLifecycle(initialValue = emptyList())
-    val onlineCount by viewModel.onlineCount.collectAsStateWithLifecycle()
-    val roomInfo by viewModel.getRoomInfo(roomId).collectAsStateWithLifecycle(initialValue = null)
+    val messages by viewModel.getMessages(roomId).collectAsState(emptyList())
+    val onlineCount by viewModel.onlineCount.collectAsState()
+    val roomInfo by viewModel.getRoomInfo(roomId).collectAsState(null)
 
     val listState = rememberLazyListState()
 

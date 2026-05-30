@@ -52,7 +52,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.collectAsState
 import com.kitabi.app.core.designsystem.KitabiTheme
 import com.kitabi.app.feature.settings.components.AiProviderSettings
 import com.kitabi.app.feature.settings.components.UserCounterCard
@@ -68,12 +68,12 @@ fun SettingsScreen(
     onSignOut: () -> Unit,
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
-    val isDarkMode by viewModel.isDarkMode.collectAsStateWithLifecycle()
-    val fontSize by viewModel.fontSize.collectAsStateWithLifecycle()
-    val readerTheme by viewModel.readerTheme.collectAsStateWithLifecycle()
-    val activeUserCount by viewModel.activeUserCount.collectAsStateWithLifecycle()
-    val aiProvider by viewModel.aiProvider.collectAsStateWithLifecycle()
-    val currentUser by viewModel.currentUser.collectAsStateWithLifecycle()
+    val isDarkMode by viewModel.isDarkMode.collectAsState()
+    val fontSize by viewModel.fontSize.collectAsState()
+    val readerTheme by viewModel.readerTheme.collectAsState()
+    val activeUserCount by viewModel.activeUserCount.collectAsState()
+    val aiProvider by viewModel.aiProvider.collectAsState()
+    val currentUser by viewModel.currentUser.collectAsState()
 
     Scaffold(
         topBar = {

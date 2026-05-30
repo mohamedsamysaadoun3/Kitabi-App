@@ -52,7 +52,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.collectAsState
 import coil.compose.AsyncImage
 import com.kitabi.app.core.designsystem.KitabiTheme
 import com.kitabi.app.domain.model.Book
@@ -69,7 +69,7 @@ fun SearchScreen(
     onOnlineBookClick: (OnlineBook) -> Unit = {},
     viewModel: SearchViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsState()
     val tabs = listOf("جهازي 📱", "متجر 🏪")
 
     Column(

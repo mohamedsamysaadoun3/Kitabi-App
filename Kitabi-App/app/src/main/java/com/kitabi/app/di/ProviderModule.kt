@@ -1,6 +1,6 @@
 package com.kitabi.app.di
 
-import com.kitabi.app.data.repository.DownloadRepository
+import com.kitabi.app.domain.repository.DownloadRepository
 import com.kitabi.app.data.repository.DownloadRepositoryImpl
 import com.kitabi.app.feature.library.components.ImportBookHandler
 import com.kitabi.app.provider.book.ContentProviderFactory

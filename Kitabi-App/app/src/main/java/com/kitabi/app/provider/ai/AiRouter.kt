@@ -190,6 +190,14 @@ class AiRouter @Inject constructor(
     }
 
     /**
+     * تحديث سرعة النطق
+     * @param speed سرعة الكلام (1.0 = عادي)
+     */
+    fun setTtsSpeed(speed: Float) {
+        ttsProvider.speechRate = speed
+    }
+
+    /**
      * هل المحرك يتحدث حالياً
      */
     fun isSpeaking(): Boolean = ttsProvider.isCurrentlySpeaking()

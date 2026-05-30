@@ -9,34 +9,13 @@ import androidx.work.WorkManager
 import com.kitabi.app.data.worker.BookDownloadWorker
 import com.kitabi.app.domain.model.DownloadState
 import com.kitabi.app.domain.repository.BookRepository
+import com.kitabi.app.domain.repository.DownloadRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
-
-/**
- * واجهة مستودع التحميل
- * تعرف عمليات تحميل الكتب
- */
-interface DownloadRepository {
-
-    /** تحميل كتاب من رابط */
-    suspend fun downloadBook(bookId: String, downloadUrl: String, fileName: String, format: String)
-
-    /** إلغاء تحميل كتاب */
-    suspend fun cancelDownload(bookId: String)
-
-    /** مراقبة حالة التحميل */
-    fun observeDownloadState(bookId: String): Flow<DownloadState>
-
-    /** مراقبة تقدم التحميل */
-    fun observeDownloadProgress(bookId: String): Flow<Int>
-
-    /** الحصول على حالة التحميل الحالية */
-    suspend fun getDownloadState(bookId: String): DownloadState
-}
 
 /**
  * تنفيذ مستودع التحميل

@@ -9,6 +9,9 @@ import com.kitabi.app.domain.model.AiFeature
 import com.kitabi.app.domain.repository.BookRepository
 import com.kitabi.app.domain.repository.UserPreferencesRepository
 import com.kitabi.app.provider.ai.AiRouter
+import com.kitabi.app.provider.book.ContentProviderFactory
+import com.kitabi.app.provider.book.BookContentProvider
+import android.net.Uri
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -29,7 +32,8 @@ class ReaderViewModel @Inject constructor(
     private val bookRepository: BookRepository,
     private val bookmarkDao: BookmarkDao,
     private val userPreferencesRepository: UserPreferencesRepository,
-    private val aiRouter: AiRouter
+    private val aiRouter: AiRouter,
+    private val contentProviderFactory: ContentProviderFactory
 ) : ViewModel() {
 
     /** حالة واجهة المستخدم */
@@ -70,35 +74,68 @@ class ReaderViewModel @Inject constructor(
     }
 
     /**
-     * تحميل محتوى الكتاب من الملف
+     * تحميل محتوى الكتاب من الملف باستخدام مزود المحتوى
      */
     private fun loadBookContent(filePath: String) {
         viewModelScope.launch {
             try {
-                // محتوى تجريبي - سيتم استبداله بمحتوى حقيقي من الملف
+                if (filePath.isBlank()) {
+                    // لا يوجد ملف - عرض رسالة تحميل الكتاب
+                    _uiState.update { state ->
+                        state.copy(
+                            bookContent = "لم يتم تحميل هذا الكتاب بعد.\nقم بتحميل الكتاب من المتجر أو استورد ملفاً من جهازك.",
+                            currentChapter = "",
+                            isLoading = false
+                        )
+                    }
+                    return@launch
+                }
+
+                val uri = Uri.parse(filePath)
+                val provider = contentProviderFactory.getProvider(uri)
+
+                // فتح الكتاب
+                val bookContent = provider.openBook(uri)
+
+                // تحميل الصفحة الأولى
+                val firstPage = provider.getPage(0)
+
+                // بناء محتوى النص من الصفحات المتاحة
+                val contentBuilder = StringBuilder()
+                val totalPages = bookContent.pageCount
+                val pagesToLoad = totalPages.coerceAtMost(50) // تحميل أول 50 صفحة
+
+                for (i in 0 until pagesToLoad) {
+                    try {
+                        val page = provider.getPage(i)
+                        contentBuilder.append(page.text)
+                        if (i < pagesToLoad - 1) {
+                            contentBuilder.append("\n\n")
+                        }
+                    } catch (_: Exception) {
+                        // تجاهل صفحات الخطأ
+                    }
+                }
+
+                // اسم الفصل الأول
+                val firstChapter = bookContent.toc.firstOrNull()?.title ?: ""
+
                 _uiState.update { state ->
                     state.copy(
-                        bookContent = "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\n\n" +
-                                "الفصل الأول\n\n" +
-                                "في عالمٍ مليءٍ بالمعرفة والكتب، يبحث القارئ النهم عن تلك الصفحات التي تلامس روحه وتثري عقله. " +
-                                "القراءة ليست مجرد نقل للمعلومات، بل هي حوار بين العقل والقلب، بين القارئ والكاتب.\n\n" +
-                                "يقول ابن خلدون: «اعلم أن فن التأليف والتصنيف من فنون الكلام الذي هو ملكة في اللسان»، " +
-                                "وهذا يوضح أن التأليف صناعة لها أصولها وقواعدها.\n\n" +
-                                "وقد عرف العرب الكتابة منذ القدم، وكانت لهم مكتبات عظيمة تضم آلاف المجلدات في شتى العلوم والفنون. " +
-                                "مكتبة بيت الحكمة في بغداد، والمكتبة القرطبية في الأندلس، ومكتبة الحمراء في غرناطة، " +
-                                "كلها شواهد على حضارة عريقة في حب الكتب والعلم.\n\n" +
-                                "الفصل الثاني\n\n" +
-                                "تعددت أساليب القراءة واختلفت من قارئ لآخر، فمنهم من يقرأ للتسلية والمتعة، " +
-                                "ومنهم من يقرأ للعلم والمعرفة، ومنهم من يقرأ للبحث والتأمل. " +
-                                "ولكن القراءة الفعّالة هي التي تجمع بين هذه الأغراض جميعها.\n\n" +
-                                "والقارئ الجيد هو الذي يعرف متى يسرع ومتى يبطئ، متى يتأمل ومتى يتجاوز، " +
-                                "ومتى يعود ليقرأ من جديد ما فاته أو ما لم يتضح له من قبل.",
-                        currentChapter = "الفصل الأول",
+                        bookContent = contentBuilder.toString(),
+                        totalPages = totalPages,
+                        currentPage = 1,
+                        currentChapter = firstChapter,
                         isLoading = false
                     )
                 }
+
+                provider.closeBook()
             } catch (e: Exception) {
-                _uiState.update { it.copy(error = "فشل تحميل الكتاب: ${e.message}") }
+                _uiState.update { it.copy(
+                    error = "فشل تحميل الكتاب: ${e.message}",
+                    isLoading = false
+                ) }
             }
         }
     }
@@ -301,7 +338,7 @@ class ReaderViewModel @Inject constructor(
      */
     fun updateTtsSpeed(speed: Float) {
         _uiState.update { it.copy(ttsSpeed = speed) }
-        aiRouter.ttsProvider.speechRate = speed
+        aiRouter.setTtsSpeed(speed)
     }
 }
 

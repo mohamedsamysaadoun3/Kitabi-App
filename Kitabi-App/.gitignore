@@ -24,3 +24,7 @@ captures/
 .cxx/
 *.kt.swp
 anno/
+
+# Android SDK
+android-sdk/
+*.zip

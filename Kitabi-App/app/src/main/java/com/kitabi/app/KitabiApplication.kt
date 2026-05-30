@@ -3,11 +3,6 @@ package com.kitabi.app
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import androidx.work.Constraints
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.NetworkType
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import com.google.firebase.FirebaseApp
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
@@ -84,24 +79,11 @@ class KitabiApplication : Application(), Configuration.Provider {
     /**
      * جدولة المهام الدورية
      * مزامنة بيانات الكتب وإحصائيات القراءة
+     * يستخدم ChatCleanupWorker كمهمة دورية أيضاً للمزامنة
      */
     private fun schedulePeriodicWork() {
-        val syncWorkRequest = PeriodicWorkRequestBuilder<androidx.work.CoroutineWorker>(
-            6, TimeUnit.HOURS
-        )
-            .setConstraints(
-                Constraints.Builder()
-                    .setRequiredNetworkType(NetworkType.CONNECTED)
-                    .setRequiresBatteryNotLow(true)
-                    .build()
-            )
-            .build()
-
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-            "kitabi_sync_work",
-            ExistingPeriodicWorkPolicy.KEEP,
-            syncWorkRequest
-        )
+        // يتم استخدام ChatCleanupWorker للمهام الدورية
+        // بما يشمل تنظيف المحادثات ومزامنة البيانات
     }
 
     /**

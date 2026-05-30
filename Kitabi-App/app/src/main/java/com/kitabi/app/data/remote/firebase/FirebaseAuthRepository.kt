@@ -7,6 +7,7 @@ import com.kitabi.app.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -29,7 +30,7 @@ class FirebaseAuthRepository @Inject constructor(
 
     override val currentUser: Flow<User?> = _currentUser.asStateFlow()
 
-    override val isLoggedIn: Flow<Boolean> = MutableStateFlow(firebaseAuth.currentUser != null)
+    override val isLoggedIn: Flow<Boolean> = _currentUser.map { it != null }
 
     override suspend fun signInWithGoogle(idToken: String): Result<User> {
         return try {

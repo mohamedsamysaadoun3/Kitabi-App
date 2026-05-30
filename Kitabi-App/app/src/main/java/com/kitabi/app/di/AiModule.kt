@@ -84,9 +84,10 @@ object AiModule {
     @Provides
     @Singleton
     fun provideChatRepository(
-        firebaseDatabase: com.google.firebase.database.FirebaseDatabase
+        firebaseDatabase: com.google.firebase.database.FirebaseDatabase,
+        firebaseAuth: com.google.firebase.auth.FirebaseAuth
     ): ChatRepository {
-        return FirebaseChatRepository(firebaseDatabase)
+        return FirebaseChatRepository(firebaseDatabase, firebaseAuth)
     }
 
     /**
@@ -106,9 +107,10 @@ object AiModule {
     @Provides
     @Singleton
     fun provideUserCounterRepository(
-        firebaseDatabase: com.google.firebase.database.FirebaseDatabase
+        firebaseDatabase: com.google.firebase.database.FirebaseDatabase,
+        firebaseAuth: com.google.firebase.auth.FirebaseAuth
     ): UserCounterRepository {
-        return FirebaseUserCounterRepository(firebaseDatabase)
+        return FirebaseUserCounterRepository(firebaseDatabase, firebaseAuth)
     }
 
     /**
